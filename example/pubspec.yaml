@@ -25,6 +25,7 @@ flutter:
     - assets/sources/cards/
     - assets/sources/carousels/
     - assets/sources/loaders/
+    - assets/sources/text/
     - assets/sources/transitions/
   # Outfit (Amicro's typeface) and JetBrains Mono, both SIL OFL — licences in assets/fonts.
   fonts:

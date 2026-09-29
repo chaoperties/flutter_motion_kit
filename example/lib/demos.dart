@@ -3,6 +3,7 @@ import 'package:flutter_motion_kit/flutter_motion_kit.dart';
 
 import 'card_catalog.g.dart';
 import 'loader_catalog.g.dart';
+import 'text_catalog.g.dart';
 import 'theme.dart';
 
 /// A small live preview inside a collection page, with its own source file.
@@ -61,6 +62,10 @@ enum TileLayout {
   /// Two wide tiles per row, previews scaled to fit a fixed stage. The previews are
   /// interactive, so code opens from the tile's code button rather than a tile click.
   stage,
+
+  /// Medium tiles for text animations: clicking a tile replays its animation, and
+  /// code opens from the tile's code button.
+  replay,
 }
 
 const _yellow = Color(0xFFFACC15);
@@ -182,6 +187,16 @@ final demos = <Demo>[
         '${loaderCatalog.length} loading indicators — dots, rings, bars, shapes and text. '
         'Each one is its own file; copy only the ones you need.',
     tiles: [for (final l in loaderCatalog) DemoTile(name: l.name, source: l.source, builder: l.builder)],
+  ),
+  Demo(
+    name: 'Text Animations',
+    category: 'Text',
+    description:
+        '${textCatalog.length} text animations — reveals, slides, springs, 3D flips, hover effects and '
+        'loops. Characters are split by grapheme, so Thai and emoji stay whole.',
+    hint: 'Click a tile to replay it · hover the Hover & Interactive ones',
+    tileLayout: TileLayout.replay,
+    tiles: [for (final e in textCatalog) DemoTile(name: e.name, source: e.source, builder: e.builder)],
   ),
   Demo(
     name: 'Card Layouts',

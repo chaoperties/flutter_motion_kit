@@ -399,29 +399,37 @@ class _TileGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final stage = layout == TileLayout.stage;
+    final (extent, aspect) = switch (layout) {
+      TileLayout.small => (230.0, 1.05),
+      TileLayout.stage => (540.0, 1.45),
+      TileLayout.replay => (340.0, 1.6),
+    };
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-        maxCrossAxisExtent: stage ? 540 : 230,
+        maxCrossAxisExtent: extent,
         mainAxisSpacing: 12,
         crossAxisSpacing: 12,
-        childAspectRatio: stage ? 1.45 : 1.05,
+        childAspectRatio: aspect,
       ),
       itemCount: tiles.length,
-      itemBuilder: (context, i) => _Tile(tile: tiles[i], stage: stage),
+      itemBuilder: (context, i) => _Tile(tile: tiles[i], layout: layout),
     );
   }
 }
 
 class _Tile extends StatefulWidget {
-  const _Tile({required this.tile, required this.stage});
+  const _Tile({required this.tile, required this.layout});
 
   final DemoTile tile;
+  final TileLayout layout;
 
   /// Scale the preview into a fixed stage and keep clicks for the preview itself.
-  final bool stage;
+  bool get stage => layout == TileLayout.stage;
+
+  /// Clicking the tile replays its preview instead of opening the code.
+  bool get replay => layout == TileLayout.replay;
 
   @override
   State<_Tile> createState() => _TileState();
@@ -429,6 +437,7 @@ class _Tile extends StatefulWidget {
 
 class _TileState extends State<_Tile> {
   bool _hover = false;
+  int _plays = 0;
 
   void _openCode() {
     showDialog<void>(
@@ -457,7 +466,7 @@ class _TileState extends State<_Tile> {
                         style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
                       ),
                       const SizedBox(width: 16),
-                      if (!widget.stage)
+                      if (widget.layout == TileLayout.small)
                         SizedBox(height: 24, child: Center(child: widget.tile.builder(context))),
                       const Spacer(),
                       IconButton(
@@ -496,13 +505,27 @@ class _TileState extends State<_Tile> {
           child: SizedBox(width: 580, height: 320, child: Center(child: preview)),
         ),
       );
+    } else if (widget.replay) {
+      // A new key restarts the animation, like Amicro's click-to-replay.
+      preview = Padding(
+        padding: const EdgeInsets.fromLTRB(20, 16, 20, 40),
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: KeyedSubtree(key: ValueKey(_plays), child: preview),
+        ),
+      );
     }
+    final buttons = widget.layout != TileLayout.small;
     return MouseRegion(
       cursor: widget.stage ? MouseCursor.defer : SystemMouseCursors.click,
       onEnter: (_) => setState(() => _hover = true),
       onExit: (_) => setState(() => _hover = false),
       child: GestureDetector(
-        onTap: widget.stage ? null : _openCode,
+        onTap: switch (widget.layout) {
+          TileLayout.small => _openCode,
+          TileLayout.stage => null,
+          TileLayout.replay => () => setState(() => _plays++),
+        },
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 180),
           clipBehavior: Clip.antiAlias,
@@ -514,6 +537,16 @@ class _TileState extends State<_Tile> {
           child: Stack(
             children: [
               Positioned.fill(child: Center(child: preview)),
+              if (widget.replay)
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: AnimatedOpacity(
+                    opacity: _hover ? 1 : 0,
+                    duration: const Duration(milliseconds: 150),
+                    child: Icon(Icons.refresh_rounded, size: 15, color: t.textMuted),
+                  ),
+                ),
               Positioned(
                 left: 14,
                 right: 8,
@@ -529,12 +562,12 @@ class _TileState extends State<_Tile> {
                     ),
                     AnimatedOpacity(
                       // Stage tiles have no click-to-open, so keep their buttons discoverable.
-                      opacity: _hover ? 1 : (widget.stage ? 0.45 : 0),
+                      opacity: _hover ? 1 : (buttons ? 0.45 : 0),
                       duration: const Duration(milliseconds: 150),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          if (widget.stage)
+                          if (buttons)
                             IconButton(
                               tooltip: 'View code',
                               visualDensity: VisualDensity.compact,

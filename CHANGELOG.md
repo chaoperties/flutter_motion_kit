@@ -1,3 +1,11 @@
+## 0.2.0
+
+* All 45 of Amicro's text animations, one file each: reveals (DiaTextReveal, BlurText,
+  TypewriterText, …), slide & drop, scale & zoom, 3D & rotate, distortion & spacing,
+  hover (SpringText, HoverLiftChar, …) and continuous loops (FloatChar, GlowText, …).
+  Entrance effects take `delay`, `duration` and `stagger`, replay when `text` changes and
+  respect reduced motion. Gallery page "Text Animations" with click-to-replay tiles.
+
 ## 0.1.0
 
 * MotionButton with 11 effects, ported from Amicro.

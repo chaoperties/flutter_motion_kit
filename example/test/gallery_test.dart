@@ -46,8 +46,8 @@ void main() {
 
       if (demo.tiles != null) {
         expect(find.text(demo.tiles!.first.name), findsOneWidget);
-        if (demo.tileLayout == TileLayout.stage) {
-          // Stage previews are interactive, so code opens from the tile's code button.
+        if (demo.tileLayout != TileLayout.small) {
+          // These tiles keep clicks for the preview, so code opens from the tile's code button.
           await tester.tap(find.byTooltip('View code').first);
         } else {
           await tester.tap(find.text(demo.tiles!.first.name));
