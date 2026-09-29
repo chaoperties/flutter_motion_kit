@@ -2,7 +2,12 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_motion_kit/flutter_motion_kit.dart';
 
-typedef TextEntry = ({String name, String category, String source, WidgetBuilder builder});
+typedef TextEntry = ({
+  String name,
+  String category,
+  String source,
+  WidgetBuilder builder,
+});
 
 final List<TextEntry> textCatalog = [
   (
@@ -27,7 +32,10 @@ final List<TextEntry> textCatalog = [
     name: 'Typewriter Text',
     category: 'Reveals',
     source: 'text/typewriter_text.dart',
-    builder: (_) => TypewriterText('TYPEWRITER', style: const TextStyle(fontFamily: 'JetBrainsMono')),
+    builder: (_) => TypewriterText(
+      'TYPEWRITER',
+      style: const TextStyle(fontFamily: 'JetBrainsMono'),
+    ),
   ),
   (
     name: 'Reveal Text',
@@ -164,13 +172,13 @@ final List<TextEntry> textCatalog = [
   (
     name: 'Flip Y Char',
     category: '3D & Rotate',
-    source: 'text/flip_ychar.dart',
+    source: 'text/flip_y_char.dart',
     builder: (_) => const FlipYChar('AMICRO UI'),
   ),
   (
     name: 'Flip X Char',
     category: '3D & Rotate',
-    source: 'text/flip_xchar.dart',
+    source: 'text/flip_x_char.dart',
     builder: (_) => const FlipXChar('AMICRO UI'),
   ),
   (
@@ -188,19 +196,19 @@ final List<TextEntry> textCatalog = [
   (
     name: 'Stretch X Char',
     category: 'Distortion & Spacing',
-    source: 'text/stretch_xchar.dart',
+    source: 'text/stretch_x_char.dart',
     builder: (_) => const StretchXChar('AMICRO UI'),
   ),
   (
     name: 'Stretch Y Char',
     category: 'Distortion & Spacing',
-    source: 'text/stretch_ychar.dart',
+    source: 'text/stretch_y_char.dart',
     builder: (_) => const StretchYChar('AMICRO UI'),
   ),
   (
     name: 'Skew X Char',
     category: 'Distortion & Spacing',
-    source: 'text/skew_xchar.dart',
+    source: 'text/skew_x_char.dart',
     builder: (_) => const SkewXChar('AMICRO UI'),
   ),
   (

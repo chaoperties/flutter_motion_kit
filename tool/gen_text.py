@@ -158,7 +158,7 @@ EFFECTS = [
 
 
 def file_name(cls):
-    return re.sub(r'(?<=[a-z])(?=[A-Z])', '_', cls).lower()
+    return re.sub(r'(?<=[a-zA-Z])(?=[A-Z][a-z])|(?<=[a-z])(?=[A-Z])', '_', cls).lower()
 
 
 def dart_num(v):
