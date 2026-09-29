@@ -4,6 +4,7 @@ import 'package:flutter_motion_kit/flutter_motion_kit.dart';
 import 'card_catalog.g.dart';
 import 'loader_catalog.g.dart';
 import 'text_catalog.g.dart';
+import 'toggle_catalog.g.dart';
 import 'theme.dart';
 
 /// A small live preview inside a collection page, with its own source file.
@@ -66,6 +67,10 @@ enum TileLayout {
   /// Medium tiles for text animations: clicking a tile replays its animation, and
   /// code opens from the tile's code button.
   replay,
+
+  /// Medium tiles whose previews take the clicks themselves (toggles, tabs); code
+  /// opens from the tile's code button.
+  interactive,
 }
 
 const _yellow = Color(0xFFFACC15);
@@ -197,6 +202,16 @@ final demos = <Demo>[
     hint: 'Click a tile to replay it · hover the Hover & Interactive ones',
     tileLayout: TileLayout.replay,
     tiles: [for (final e in textCatalog) DemoTile(name: e.name, source: e.source, builder: e.builder)],
+  ),
+  Demo(
+    name: 'Toggles',
+    category: 'Toggles',
+    description:
+        "Amicro's ${toggleCatalog.length} toggles — switches, like/repost/bookmark actions and pill tabs. "
+        'Each keeps its own state, or pass value + onChanged to control it.',
+    hint: 'Click to toggle · Tab + Space works too',
+    tileLayout: TileLayout.interactive,
+    tiles: [for (final e in toggleCatalog) DemoTile(name: e.name, source: e.source, builder: e.builder)],
   ),
   Demo(
     name: 'Card Layouts',

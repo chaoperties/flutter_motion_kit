@@ -1,6 +1,6 @@
 name: flutter_motion_kit
 description: "Copy-paste micro-interaction widgets for Flutter: card fans, 3D carousels and entrance transitions. Every widget is one self-contained file with zero dependencies."
-version: 0.2.0
+version: 0.3.0
 homepage:
 
 environment:

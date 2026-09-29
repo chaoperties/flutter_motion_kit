@@ -402,7 +402,7 @@ class _TileGrid extends StatelessWidget {
     final (extent, aspect) = switch (layout) {
       TileLayout.small => (230.0, 1.05),
       TileLayout.stage => (540.0, 1.45),
-      TileLayout.replay => (340.0, 1.6),
+      TileLayout.replay || TileLayout.interactive => (340.0, 1.6),
     };
     return GridView.builder(
       shrinkWrap: true,
@@ -505,25 +505,25 @@ class _TileState extends State<_Tile> {
           child: SizedBox(width: 580, height: 320, child: Center(child: preview)),
         ),
       );
-    } else if (widget.replay) {
-      // A new key restarts the animation, like Amicro's click-to-replay.
+    } else if (widget.layout != TileLayout.small) {
       preview = Padding(
         padding: const EdgeInsets.fromLTRB(20, 16, 20, 40),
         child: FittedBox(
           fit: BoxFit.scaleDown,
+          // A new key restarts the animation, like Amicro's click-to-replay.
           child: KeyedSubtree(key: ValueKey(_plays), child: preview),
         ),
       );
     }
     final buttons = widget.layout != TileLayout.small;
     return MouseRegion(
-      cursor: widget.stage ? MouseCursor.defer : SystemMouseCursors.click,
+      cursor: widget.layout == TileLayout.small || widget.replay ? SystemMouseCursors.click : MouseCursor.defer,
       onEnter: (_) => setState(() => _hover = true),
       onExit: (_) => setState(() => _hover = false),
       child: GestureDetector(
         onTap: switch (widget.layout) {
           TileLayout.small => _openCode,
-          TileLayout.stage => null,
+          TileLayout.stage || TileLayout.interactive => null,
           TileLayout.replay => () => setState(() => _plays++),
         },
         child: AnimatedContainer(

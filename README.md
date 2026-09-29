@@ -1,7 +1,7 @@
 # flutter_motion_kit
 
 Copy-paste micro-interactions for Flutter — card fans, 3D carousels, text
-animations, loaders and entrance transitions. Inspired by [Amicro](https://github.com/Subhan-code/Amicro--Micro-transitions-)
+animations, toggles, loaders and entrance transitions. Inspired by [Amicro](https://github.com/Subhan-code/Amicro--Micro-transitions-)
 (React + Motion), rebuilt on Flutter's own animation engine.
 
 **Every widget is a single file that imports only Flutter.** Copy the file into
@@ -12,6 +12,7 @@ your app and it works — no package to install, and you own the code.
 | `MotionButton` | `lib/widgets/buttons/motion_button.dart` | Pill button with 11 hover effects (morph, sparkle, shake, glare, magnetic…) |
 | 20 loaders | `lib/widgets/loaders/*.dart` | Dots, rings, bars, shapes and text — one file each |
 | 45 text animations | `lib/widgets/text/*.dart` | Amicro's text effects: reveals, slides, springs, 3D flips, distortion, hover and loops — `BlurUpChar('Hello')` |
+| 13 toggles | `lib/widgets/toggles/*.dart` | Amicro's toggles: 8 switches (Double Bounce, Solid, Rectangle, Circle, Classic, Morph, Checkmark, Theme), Bookmark/Like/Dislike/Repost actions and `PillTabs` — self-managed, or controlled with `value` + `onChanged` |
 | 12 card layouts | `lib/widgets/cards/card_*.dart` | Amicro's cards: Arc (5/7/long), Linear Spread, Corner Fan, Stamp Arc, Cascade Stagger, Scatter Spread, Wheel Fan, Carousel, Cover Flow, Time Machine |
 | `ArcFan` | `lib/widgets/cards/arc_fan.dart` | Stack of cards that fans out along an arc |
 | `LinearSpread` | `lib/widgets/cards/linear_spread.dart` | Messy pile that slides into a neat row |
@@ -19,8 +20,8 @@ your app and it works — no package to install, and you own the code.
 | `FadeUp` | `lib/widgets/transitions/fade_up.dart` | Fade + drift-up entrance, optional blur |
 
 Widgets follow the ambient light/dark theme and default to Amicro's neutral
-palette; every colour can be overridden. `MotionButton`, the loaders, the text animations
-and the `Card*` layouts are ports of Amicro components (MIT) — see `THIRD_PARTY_NOTICES.md`.
+palette; every colour can be overridden. `MotionButton`, the loaders, the text animations,
+the toggles and the `Card*` layouts are ports of Amicro components (MIT) — see `THIRD_PARTY_NOTICES.md`.
 
 ## Use it
 
@@ -61,6 +62,12 @@ cd example && dart run tool/sync_sources.dart
 Text animations are generated too: add an entry to `EFFECTS` in `tool/gen_text.py` (a pose
 such as `opacity=(0, 1), y=(15, 0)` plus a timing), run `python tool/gen_text.py`, then sync
 the gallery sources. Character effects split by grapheme, so Thai and emoji stay whole.
+
+## Adding a toggle
+
+Switches and action buttons are generated from `SWITCHES` / `ACTIONS` in
+`tool/gen_toggles.py` (`PillTabs` is hand-written). Run `python tool/gen_toggles.py`, then sync
+the gallery sources.
 
 ## Adding a hover card layout
 

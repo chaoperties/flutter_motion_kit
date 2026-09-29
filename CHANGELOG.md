@@ -1,3 +1,12 @@
+## 0.3.0
+
+* All of Amicro's toggles, one file each: DoubleBounceSwitch, SolidSwitch, RectangleSwitch,
+  CircleSwitch, ClassicSwitch, MorphSwitch, CheckmarkSwitch, ThemeSwitch, BookmarkToggle,
+  LikeToggle, DislikeToggle, RepostToggle and PillTabs. Each keeps its own state or is controlled
+  with `value` + `onChanged`, works from the keyboard and reports its state to screen readers.
+* DoubleBounceSwitch's bounce is our own: Amicro's relies on CSS missing from its repo.
+* Gallery page "Toggles".
+
 ## 0.2.0
 
 * All 45 of Amicro's text animations, one file each: reveals (DiaTextReveal, BlurText,
