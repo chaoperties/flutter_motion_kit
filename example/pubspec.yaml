@@ -1,0 +1,45 @@
+name: flutter_motion_kit_example
+description: "Gallery for flutter_motion_kit: live previews and copyable source for every widget."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.13.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_motion_kit:
+    path: ../
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  # Widget sources, copied here by `dart run tool/sync_sources.dart`.
+  assets:
+    - assets/sources/buttons/
+    - assets/sources/cards/
+    - assets/sources/carousels/
+    - assets/sources/loaders/
+    - assets/sources/transitions/
+  # Outfit (Amicro's typeface) and JetBrains Mono, both SIL OFL — licences in assets/fonts.
+  fonts:
+    - family: Outfit
+      fonts:
+        - asset: assets/fonts/Outfit-300.ttf
+          weight: 300
+        - asset: assets/fonts/Outfit-400.ttf
+          weight: 400
+        - asset: assets/fonts/Outfit-500.ttf
+          weight: 500
+        - asset: assets/fonts/Outfit-600.ttf
+          weight: 600
+        - asset: assets/fonts/Outfit-700.ttf
+          weight: 700
+    - family: JetBrainsMono
+      fonts:
+        - asset: assets/fonts/JetBrainsMono-400.ttf
