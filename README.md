@@ -1,5 +1,7 @@
 # flutter_motion_kit
 
+[![CI](https://github.com/chaoperties/flutter_motion_kit/actions/workflows/ci.yml/badge.svg)](https://github.com/chaoperties/flutter_motion_kit/actions/workflows/ci.yml)
+
 Copy-paste micro-interactions for Flutter — card fans, 3D carousels, text
 animations, toggles, loaders and entrance transitions. Inspired by [Amicro](https://github.com/Subhan-code/Amicro--Micro-transitions-)
 (React + Motion), rebuilt on Flutter's own animation engine.

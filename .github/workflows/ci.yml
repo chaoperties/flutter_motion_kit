@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Analyze, test and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.47.4'
+          channel: stable
+          cache: true
+      - name: Install package dependencies
+        run: flutter pub get
+      - name: Install gallery dependencies
+        working-directory: example
+        run: flutter pub get
+      - name: Analyze package and gallery
+        run: flutter analyze
+      - name: Test package
+        run: flutter test
+      - name: Test gallery and verify source assets
+        working-directory: example
+        run: flutter test
+      - name: Build gallery for GitHub Pages
+        working-directory: example
+        run: flutter build web --release --base-href /flutter_motion_kit/
