@@ -42,6 +42,9 @@ import 'package:flutter_motion_kit/flutter_motion_kit.dart';
 
 ## Gallery
 
+[Open the live gallery](https://chaoperties.github.io/flutter_motion_kit/).
+GitHub Actions builds and deploys the example to GitHub Pages on every push to `main`.
+
 ```bash
 cd example
 flutter run -d chrome
