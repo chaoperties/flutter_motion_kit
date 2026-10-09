@@ -23,6 +23,7 @@ flutter:
   assets:
     - assets/sources/buttons/
     - assets/sources/cards/
+    - assets/sources/charts/
     - assets/sources/carousels/
     - assets/sources/loaders/
     - assets/sources/text/

@@ -15,6 +15,7 @@ your app and it works — no package to install, and you own the code.
 | 20 loaders | `lib/widgets/loaders/*.dart` | Dots, rings, bars, shapes and text — one file each |
 | 45 text animations | `lib/widgets/text/*.dart` | Amicro's text effects: reveals, slides, springs, 3D flips, distortion, hover and loops — `BlurUpChar('Hello')` |
 | 13 toggles | `lib/widgets/toggles/*.dart` | Amicro's toggles: 8 switches (Double Bounce, Solid, Rectangle, Circle, Classic, Morph, Checkmark, Theme), Bookmark/Like/Dislike/Repost actions and `PillTabs` — self-managed, or controlled with `value` + `onChanged` |
+| 28 mono charts | `lib/widgets/charts/*.dart` | 30 previews: rounded line/area/bar charts, donut, gauges, radar, heatmaps, candlesticks, Sankey, treemap and more — hover/tap to inspect data |
 | 12 card layouts | `lib/widgets/cards/card_*.dart` | Amicro's cards: Arc (5/7/long), Linear Spread, Corner Fan, Stamp Arc, Cascade Stagger, Scatter Spread, Wheel Fan, Carousel, Cover Flow, Time Machine |
 | `ArcFan` | `lib/widgets/cards/arc_fan.dart` | Stack of cards that fans out along an arc |
 | `LinearSpread` | `lib/widgets/cards/linear_spread.dart` | Messy pile that slides into a neat row |
@@ -50,6 +51,40 @@ GitHub Actions builds and deploys the example to GitHub Pages on every push to `
 ```bash
 cd example
 flutter run -d chrome
+```
+
+## Mono charts
+
+Open **Mono Charts** in the gallery to preview all 30 examples, inspect values,
+switch datasets and copy any chart's standalone Dart file. Charts follow the
+ambient light/dark theme and respect reduced-motion settings.
+
+```dart
+MonoRoundedLineChart(
+  unit: 'ms',
+  data: const [
+    MonoRoundedLinePoint(label: 'Mon', value: 124, secondary: 155),
+    MonoRoundedLinePoint(label: 'Tue', value: 132, secondary: 158),
+    MonoRoundedLinePoint(label: 'Wed', value: 158, secondary: 172),
+  ],
+  onSelected: (point) => debugPrint(point?.label),
+)
+```
+
+Each chart exposes typed points, `data` for one series, `datasets` for named
+series, `unit`, `width`, `height`, colour overrides and `onSelected`. Default
+values are demo data. For financial candles, `value` is the closing price; for
+range bands it is the upper bound. `secondary` and `tertiary` supply additional
+series, while scatter/bubble points use `x`, `value` (y) and `size`.
+
+To update generated charts, edit `tool/gen_mono_charts.py` or
+`tool/mono_chart.dart.tmpl`, then regenerate and sync the copyable sources:
+
+```bash
+python tool/gen_mono_charts.py
+dart format --line-length 110 lib/widgets/charts example/lib/mono_chart_catalog.g.dart
+cd example
+dart run tool/sync_sources.dart
 ```
 
 ## Adding a loader

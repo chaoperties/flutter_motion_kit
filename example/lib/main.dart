@@ -295,9 +295,16 @@ class _DemoPageState extends State<DemoPage> {
                 ],
               ),
               const SizedBox(height: 28),
-              if (demo.tiles != null)
-                _TileGrid(tiles: demo.tiles!, layout: demo.tileLayout)
-              else ...[
+              if (demo.tiles != null) ...[
+                if (demo.tileLayout == TileLayout.chart) ...[
+                  Text(
+                    'Hover or tap to inspect values. Use the selector to change datasets.',
+                    style: TextStyle(fontSize: 12, color: t.textMuted),
+                  ),
+                  const SizedBox(height: 12),
+                ],
+                _TileGrid(tiles: demo.tiles!, layout: demo.tileLayout),
+              ] else ...[
                 Row(
                   children: [
                     _Segmented(
@@ -400,6 +407,7 @@ class _TileGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (extent, aspect) = switch (layout) {
+      TileLayout.chart => (540.0, 1.45),
       TileLayout.small => (230.0, 1.05),
       TileLayout.stage => (540.0, 1.45),
       TileLayout.replay || TileLayout.interactive => (340.0, 1.6),
@@ -461,14 +469,17 @@ class _TileState extends State<_Tile> {
                   padding: const EdgeInsets.fromLTRB(20, 16, 12, 12),
                   child: Row(
                     children: [
-                      Text(
-                        widget.tile.name,
-                        style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+                      Expanded(
+                        child: Text(
+                          widget.tile.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+                        ),
                       ),
                       const SizedBox(width: 16),
                       if (widget.layout == TileLayout.small)
                         SizedBox(height: 24, child: Center(child: widget.tile.builder(context))),
-                      const Spacer(),
                       IconButton(
                         tooltip: 'Close',
                         onPressed: () => Navigator.pop(context),
@@ -496,7 +507,9 @@ class _TileState extends State<_Tile> {
     final t = Tokens.of(context);
     final tile = widget.tile;
     Widget preview = tile.hoverBuilder != null ? tile.hoverBuilder!(_hover) : tile.builder(context);
-    if (widget.stage) {
+    if (widget.layout == TileLayout.chart) {
+      preview = Padding(padding: const EdgeInsets.fromLTRB(10, 10, 10, 38), child: preview);
+    } else if (widget.stage) {
       // Every layout gets the same 580x320 stage, scaled down to fit the tile.
       preview = Padding(
         padding: const EdgeInsets.only(bottom: 28),
@@ -517,13 +530,15 @@ class _TileState extends State<_Tile> {
     }
     final buttons = widget.layout != TileLayout.small;
     return MouseRegion(
-      cursor: widget.layout == TileLayout.small || widget.replay ? SystemMouseCursors.click : MouseCursor.defer,
+      cursor: widget.layout == TileLayout.small || widget.replay
+          ? SystemMouseCursors.click
+          : MouseCursor.defer,
       onEnter: (_) => setState(() => _hover = true),
       onExit: (_) => setState(() => _hover = false),
       child: GestureDetector(
         onTap: switch (widget.layout) {
           TileLayout.small => _openCode,
-          TileLayout.stage || TileLayout.interactive => null,
+          TileLayout.stage || TileLayout.interactive || TileLayout.chart => null,
           TileLayout.replay => () => setState(() => _plays++),
         },
         child: AnimatedContainer(
@@ -676,11 +691,14 @@ class _CodeViewState extends State<CodeView> {
                 ),
                 child: Row(
                   children: [
-                    Text(
-                      widget.fileName.split('/').last,
-                      style: TextStyle(fontFamily: monoFont, fontSize: 12, color: t.textMuted),
+                    Expanded(
+                      child: Text(
+                        widget.fileName.split('/').last,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontFamily: monoFont, fontSize: 12, color: t.textMuted),
+                      ),
                     ),
-                    const Spacer(),
                     MotionButton(
                       label: 'Copy',
                       activeLabel: 'Copied',

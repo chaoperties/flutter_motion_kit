@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_motion_kit_example/demos.dart';
 import 'package:flutter_motion_kit_example/main.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -76,5 +77,32 @@ void main() {
     await tester.tap(find.text('Dark'));
     await settle(tester);
     expect(Theme.of(tester.element(find.byType(GalleryHome))).brightness, Brightness.light);
+  });
+
+  testWidgets('mono charts and their source are accessible on mobile', (tester) async {
+    // Asset futures cached in an earlier test belong to that test's fake async zone.
+    rootBundle.clear();
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+    await tester.pumpWidget(const GalleryApp());
+    await tester.tap(find.byTooltip('Open navigation menu'));
+    await settle(tester);
+    await tester.tap(find.text('Mono Charts').first);
+    await settle(tester);
+    expect(find.text('Emerald Activity Heatmap'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+    await tester.tap(find.byTooltip('View code').first);
+    await settle(tester);
+    expect(
+      tester.widget<CodeView>(find.byType(CodeView)).assetPath,
+      'assets/sources/charts/mono_activity_heatmap.dart.txt',
+    );
+    expect(find.byType(SelectableText), findsOneWidget);
+    expect(
+      tester.widget<SelectableText>(find.byType(SelectableText)).data,
+      contains('class MonoActivityHeatmap extends StatefulWidget'),
+    );
+    expect(tester.takeException(), isNull);
   });
 }

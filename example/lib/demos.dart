@@ -3,6 +3,7 @@ import 'package:flutter_motion_kit/flutter_motion_kit.dart';
 
 import 'card_catalog.g.dart';
 import 'loader_catalog.g.dart';
+import 'mono_chart_catalog.g.dart';
 import 'text_catalog.g.dart';
 import 'toggle_catalog.g.dart';
 import 'theme.dart';
@@ -57,6 +58,9 @@ class Demo {
 
 /// How a collection page lays out its tiles.
 enum TileLayout {
+  /// Interactive charts with room for labels and controls.
+  chart,
+
   /// Small tiles; clicking a tile opens its code.
   small,
 
@@ -212,6 +216,13 @@ final demos = <Demo>[
     hint: 'Click to toggle · Tab + Space works too',
     tileLayout: TileLayout.interactive,
     tiles: [for (final e in toggleCatalog) DemoTile(name: e.name, source: e.source, builder: e.builder)],
+  ),
+  Demo(
+    name: 'Mono Charts',
+    category: 'Charts',
+    description: "Amicro's 30 rounded chart previews — single-ink geometry, soft gradients, activity heatmaps and interactive data inspection.",
+    tileLayout: TileLayout.chart,
+    tiles: [for (final e in monoChartCatalog) DemoTile(name: e.name, source: e.source, builder: e.builder)],
   ),
   Demo(
     name: 'Card Layouts',

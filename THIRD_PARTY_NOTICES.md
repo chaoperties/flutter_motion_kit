@@ -2,8 +2,8 @@
 
 ## Amicro
 
-`MotionButton`, all loaders in `lib/widgets/loaders/` and the `card_*.dart` layouts in
-`lib/widgets/cards/` are Flutter ports of
+`MotionButton`, all loaders in `lib/widgets/loaders/`, the `card_*.dart` layouts in
+`lib/widgets/cards/` and the mono charts in `lib/widgets/charts/` are Flutter ports of
 components from [Amicro](https://github.com/Subhan-code/Amicro--Micro-transitions-).
 The gallery's visual design (palette, type, layout language) also follows Amicro.
 
